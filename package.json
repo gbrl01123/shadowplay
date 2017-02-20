@@ -1,0 +1,20 @@
+{
+  "name": "shadowplay",
+  "version": "0.0.0",
+  "description": "CLI/GUI choreography",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node main.js",
+		"dev": "webpack --progress --watch"
+  },
+  "keywords": [
+    "HCI",
+    "UI",
+    "UX",
+    "CLI",
+    "GUI"
+  ],
+  "author": "Gabe",
+  "license": "GPL-3.0"
+}
