@@ -1,8 +1,41 @@
-body {
-    div {
-				margin-top: 30px;
-				height: 200px;
-				width: 200px;				
-        background-color: #bada55;
-    }
+$font-stack:    sans-serif;
+$primary-color: #bada55;
+$margin-y: 15px;
+$ui-block-height: 200px;
+$ui-block-width: 100%;
+
+.headline {
+		height: 30px;
+		text-align: center;
+		background-color: white;
+}
+
+div {
+		height: $ui-block-height;
+		width: $ui-block-width;
+    background-color: $primary-color;
+}
+
+#gui {
+		margin-bottom: $margin-y;
+}
+
+#cli {
+		height: initial;
+		#cl {
+				width: 100%;
+				font-size: 1.5em;
+				font-family: mono;
+				background: rgba(white, 0.5);
+				outline: 0;
+				border: 0px;
+		}
+}
+
+#history {
+		pre {
+				margin: 0;
+				font-size: 1.5em;
+				font-family: mono;				
+		}
 }
