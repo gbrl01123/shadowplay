@@ -1,41 +1,59 @@
 $font-stack:    sans-serif;
 $primary-color: #bada55;
 $margin-y: 15px;
-$ui-block-height: 200px;
+$ui-block-height: (1em * 13);
 $ui-block-width: 100%;
 
 .headline {
-		height: 30px;
-		text-align: center;
-		background-color: white;
+    height: 30px;
+    text-align: center;
+    background-color: white;
 }
 
 div {
-		height: $ui-block-height;
-		width: $ui-block-width;
+    height: $ui-block-height;
+    width: $ui-block-width;
     background-color: $primary-color;
+    font-size: 1em;
+    font-family: mono;    
 }
 
 #gui {
-		margin-bottom: $margin-y;
+    background-color: skyBlue;
+    margin-bottom: $margin-y;
+}
+
+
+#history {
+    display: flex;
+    flex-direction: column-reverse;
+    height: (1em * 9);
+    overflow-y: auto;
+    div {
+        display: flex;
+        flex-shrink: 0;
+        align-items: bottom;
+        height: 1em;
+        pre {
+            margin: 0;
+        }
+    }
 }
 
 #cli {
-		height: initial;
-		#cl {
-				width: 100%;
-				font-size: 1.5em;
-				font-family: mono;
-				background: rgba(white, 0.5);
-				outline: 0;
-				border: 0px;
-		}
+    height: initial;
+    #cl {
+        width: 100%;
+        background: rgba(white, 0.5);
+        outline: 0;
+        border: 0px;
+    }
 }
 
-#history {
-		pre {
-				margin: 0;
-				font-size: 1.5em;
-				font-family: mono;				
-		}
+#tray {
+    background-color: sienna;
+    height: (1em * 3);
+    pre {
+        margin: 0;
+    }
 }

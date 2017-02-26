@@ -146,10 +146,13 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__.e/* require */(0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [
-	__webpack_require__(0), __webpack_require__(3), __webpack_require__(2), __webpack_require__(1)
+  __webpack_require__(0), __webpack_require__(3), __webpack_require__(2), __webpack_require__(1)
 ]; (function(_, CommandLine, CommandHistory) {
-	const commandLine = CommandLine(CommandHistory());
-	debugger
+  const commandHistory = CommandHistory();
+  const commandLine = CommandLine(commandHistory);
+  // const commandLine = CommandLine(CommandHistory());
+  window.ch = commandHistory;
+  window.cl = commandLine;
 }.apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}).catch(__webpack_require__.oe);
 
 

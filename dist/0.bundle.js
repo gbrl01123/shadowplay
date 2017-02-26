@@ -17121,31 +17121,54 @@ if(false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0)], __WEBPACK_AMD_DEFINE_RESULT__ = function(_) {
-	
-	function CommandHistory() {
 
-		const history = [];
-		
-		return {
-			domContainer: document.getElementById('history'),
-			
-			pushCommand: function (command) {
-				const historyLine = document.createElement("pre");
-				const commandText = document.createTextNode(command);
-				historyLine.appendChild(commandText);
-				history.push({
-					command: command,
-					domNode: historyLine
-				});
-				this.domContainer.insertBefore(
-					historyLine,
-					this.domContainer.firstChild
-				);
-			}
-		};
-	}
+  function CommandHistory() {
 
-	return CommandHistory;
+    const history = [];
+    let domContainer = document.getElementById('history');
+    let historyLength = 0;
+    let recallIndex = null;
+
+    return {
+      domContainer: domContainer,
+
+      pushCommand: function (command) {
+        const lineContainer = document.createElement("div");
+        const historyLine = document.createElement("pre");
+        const commandText = document.createTextNode(command);
+        historyLine.appendChild(commandText);
+        lineContainer.appendChild(historyLine);
+        history.push({
+          command: command,
+          domNode: historyLine
+        });
+        domContainer.insertBefore(
+          lineContainer,
+          domContainer.firstChild
+        );
+        ++historyLength;
+      },
+
+      recall: function() {
+        if (recallIndex === null || recallIndex === 0) {
+          recallIndex = historyLength -1;
+        } else {
+          --recallIndex;
+        }
+        return history[recallIndex];
+      },
+
+      setContainer: function(container) {
+        domContainer = container;
+      },
+
+      resetIndex: function() {
+        recallIndex = 0;
+      }
+    };
+  }
+
+  return CommandHistory;
 }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
@@ -17156,44 +17179,46 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(0)], __WEBPACK_AMD_DEFINE_RESULT__ = function(_) {
 
-	function CommandLine (commandHistory) {
+  function CommandLine (commandHistory) {
 
-		return {
-			commandHistory: commandHistory,
-			domContainer: initializeCLI(),
-		}
+    return {
+      commandHistory: commandHistory,
+      domContainer: initializeCLI()
+    }
 
-		function initializeCLI() {
-			let domContainer = document.getElementById('cl');
-			domContainer.addEventListener("keydown", CLI);
-			domContainer.focus();
-			return domContainer;
-		}
+    function initializeCLI() {
+      let domContainer = document.getElementById('cl');
+      domContainer.addEventListener("keydown", CLI);
+      domContainer.focus();
+      return domContainer;
+    }
 
-		function CLI(domEvent) {
-			const keyMap = {
-				13: function(domEvent) {
-					commandHistory.pushCommand(
-						clean(domEvent.srcElement.value)
-					);
-					domEvent.srcElement.value = '';
-					return false;
-				},
-				38: null,//up
-				40: null//down
-			};
-			
-			if (domEvent.keyCode in keyMap) {
-				keyMap[domEvent.keyCode](domEvent);
-			}
-		}
+    function CLI(domEvent) {
+      const keyMap = {
+        13: function(domEvent) {
+          commandHistory.pushCommand(
+            clean(domEvent.srcElement.value)
+          );
+          domEvent.srcElement.value = '';
+          return false;
+        },
+        38: null,//up
+        40: function(domEvent) {
+          
+        }
+      };
 
-		function clean(inputText) {
-			return inputText.replace(/[^\w\s(),]/gi, '');
-		}
-	}
-	
-	return CommandLine;
+      if (domEvent.keyCode in keyMap) {
+        keyMap[domEvent.keyCode](domEvent);
+      }
+    }
+
+    function clean(inputText) {
+      return inputText.replace(/[^\w\s(),]/gi, '');
+    }
+  }
+
+  return CommandLine;
 }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
@@ -17208,7 +17233,7 @@ exports = module.exports = __webpack_require__(6)();
 
 
 // module
-exports.push([module.i, ".headline {\n  height: 30px;\n  text-align: center;\n  background-color: white; }\n\ndiv {\n  height: 200px;\n  width: 100%;\n  background-color: #bada55; }\n\n#gui {\n  margin-bottom: 15px; }\n\n#cli {\n  height: initial; }\n  #cli #cl {\n    width: 100%;\n    font-size: 1.5em;\n    font-family: mono;\n    background: rgba(255, 255, 255, 0.5);\n    outline: 0;\n    border: 0px; }\n\n#history pre {\n  margin: 0;\n  font-size: 1.5em;\n  font-family: mono; }\n", ""]);
+exports.push([module.i, ".headline {\n  height: 30px;\n  text-align: center;\n  background-color: white; }\n\ndiv {\n  height: 13em;\n  width: 100%;\n  background-color: #bada55;\n  font-size: 1em;\n  font-family: mono; }\n\n#gui {\n  background-color: skyBlue;\n  margin-bottom: 15px; }\n\n#history {\n  display: flex;\n  flex-direction: column-reverse;\n  height: 9em;\n  overflow-y: auto; }\n  #history div {\n    display: flex;\n    flex-shrink: 0;\n    align-items: bottom;\n    height: 1em; }\n    #history div pre {\n      margin: 0; }\n\n#cli {\n  height: initial; }\n  #cli #cl {\n    width: 100%;\n    background: rgba(255, 255, 255, 0.5);\n    outline: 0;\n    border: 0px; }\n\n#tray {\n  background-color: sienna;\n  height: 3em; }\n  #tray pre {\n    margin: 0; }\n", ""]);
 
 // exports
 
