@@ -16,16 +16,18 @@ define(["lodash"], function(_) {
 
     function CLI(domEvent) {
       const keyMap = {
-        13: function(domEvent) {
-          commandHistory.pushCommand(
-            clean(domEvent.srcElement.value)
-          );
-          domEvent.srcElement.value = '';
+        13: function(domEvent) { // enter
+          domEvent.srcElement.value =
+            commandHistory.pushCommand(
+              clean(domEvent.srcElement.value)
+            );
           return false;
         },
-        38: null,//up
-        40: function(domEvent) {
-          
+        38: function(domEvent) { // arrow up
+          domEvent.srcElement.value = commandHistory.recallBefore().command;
+        },
+        40: function(domEvent) { // arrow down
+          domEvent.srcElement.value = commandHistory.recallAfter().command;
         }
       };
 

@@ -17124,46 +17124,55 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 
   function CommandHistory() {
 
-    const history = [];
+    const history = [{command: '', domNode: null}];
     let domContainer = document.getElementById('history');
-    let historyLength = 0;
-    let recallIndex = null;
+    let recallIndex = history.length - 1;
+
+    function recall(offset) {
+      return history[recallIndex + offset]
+        ? history[recallIndex += offset]
+        : history[recallIndex];
+    }
+
+    function domNode(data) {
+      if (data.length == 1) {
+        return document.createTextNode(data[0]);
+      } else {
+        let node = document.createElement(data.pop());
+        node.appendChild(domNode(data));
+        return node;
+      }
+    }
+    
+    function historyLine(command) {
+      let line = domNode([command, "pre", "div"]);
+      domContainer.insertBefore(
+        line,
+        domContainer.firstChild
+      );
+      return line;
+    }
 
     return {
       domContainer: domContainer,
 
       pushCommand: function (command) {
-        const lineContainer = document.createElement("div");
-        const historyLine = document.createElement("pre");
-        const commandText = document.createTextNode(command);
-        historyLine.appendChild(commandText);
-        lineContainer.appendChild(historyLine);
+        let placeholder = history.pop();
         history.push({
           command: command,
-          domNode: historyLine
+          domNode: historyLine(command)
         });
-        domContainer.insertBefore(
-          lineContainer,
-          domContainer.firstChild
-        );
-        ++historyLength;
+        history.push(placeholder);
+        recallIndex = history.length - 1;
+        return history[recallIndex].command;
       },
 
-      recall: function() {
-        if (recallIndex === null || recallIndex === 0) {
-          recallIndex = historyLength -1;
-        } else {
-          --recallIndex;
-        }
-        return history[recallIndex];
+      recallBefore: function() {
+        return recall(-1);
       },
 
-      setContainer: function(container) {
-        domContainer = container;
-      },
-
-      resetIndex: function() {
-        recallIndex = 0;
+      recallAfter: function() {
+        return recall(1);
       }
     };
   }
@@ -17195,16 +17204,18 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 
     function CLI(domEvent) {
       const keyMap = {
-        13: function(domEvent) {
-          commandHistory.pushCommand(
-            clean(domEvent.srcElement.value)
-          );
-          domEvent.srcElement.value = '';
+        13: function(domEvent) { // enter
+          domEvent.srcElement.value =
+            commandHistory.pushCommand(
+              clean(domEvent.srcElement.value)
+            );
           return false;
         },
-        38: null,//up
-        40: function(domEvent) {
-          
+        38: function(domEvent) { // arrow up
+          domEvent.srcElement.value = commandHistory.recallBefore().command;
+        },
+        40: function(domEvent) { // arrow down
+          domEvent.srcElement.value = commandHistory.recallAfter().command;
         }
       };
 
