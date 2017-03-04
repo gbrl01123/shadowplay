@@ -5,7 +5,8 @@ $ui-block-height: (1em * 13);
 $ui-block-width: 100%;
 
 .headline {
-    height: 30px;
+    // height: 30px;
+    height: 1em;
     text-align: center;
     background-color: white;
 }
@@ -21,7 +22,17 @@ div {
 #gui {
     background-color: skyBlue;
     margin-bottom: $margin-y;
+
+    canvas {
+        height: 100%;
+        width: 100%;
+    }
 }
+
+// #grfx {
+//     height: 100%;
+//     width: 100%;
+// }
 
 
 #history {

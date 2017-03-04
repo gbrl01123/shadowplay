@@ -1,6 +1,6 @@
 require([
-  "lodash", "./CommandLine", "./CommandHistory", "./shadowplay.scss"
-], function(_, CommandLine, CommandHistory) {
+  "lodash", "./CommandLine", "./CommandHistory", "./Graphical", "./shadowplay.scss"
+], function(_, CommandLine, CommandHistory, Graphical) {
   const commandHistory = CommandHistory();
   const commandLine = CommandLine(commandHistory);
   // const commandLine = CommandLine(CommandHistory());

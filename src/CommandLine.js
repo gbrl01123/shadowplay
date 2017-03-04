@@ -14,6 +14,8 @@ define(["lodash"], function(_) {
       return domContainer;
     }
 
+    // let's add a prompt, homeboy
+    
     function CLI(domEvent) {
       const keyMap = {
         13: function(domEvent) { // enter

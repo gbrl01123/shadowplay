@@ -137,17 +137,17 @@
 /******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 4:
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__.e/* require */(0).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [
-  __webpack_require__(0), __webpack_require__(3), __webpack_require__(2), __webpack_require__(1)
-]; (function(_, CommandLine, CommandHistory) {
+  __webpack_require__(0), __webpack_require__(3), __webpack_require__(2), __webpack_require__(4), __webpack_require__(1)
+]; (function(_, CommandLine, CommandHistory, Graphical) {
   const commandHistory = CommandHistory();
   const commandLine = CommandLine(commandHistory);
   // const commandLine = CommandLine(CommandHistory());
